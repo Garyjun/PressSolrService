@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STRUTSCX LOG4J CONFIGURATION - XML style -->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- STDOUT: Outputs log information to the standard output/console -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+	</appender>
+	<appender name="app.file.log" class="org.apache.log4j.RollingFileAppender">
+		<!-- ${myAppfuse.root}变量仅适用于Spring的配置 -->
+		<param name="File" value="${app.root}/WEB-INF/logs/app.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="500"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %p - %m%n"/>
+		</layout>
+	</appender>
+	<logger name="com.channelsoft">
+		<level value="debug"/>
+		<appender-ref ref="app.file.log"/>
+	</logger>
+	
+	<logger name="com.brainsoon">
+		<level value="debug"/>
+		<appender-ref ref="app.file.log"/>
+	</logger>
+
+	<logger name="com.opensymphony.xwork2">
+		<level value="info"/>
+		<appender-ref ref="STDOUT"/>
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="info"/>
+		<appender-ref ref="app.file.log"/>
+	</logger>
+	
+	<logger name="org.springframework.orm.hibernate3">
+		<level value="info"/>
+		<appender-ref ref="app.file.log"/>
+	</logger>
+	
+	<root>
+		<level value="error"/>
+		<appender-ref ref="STDOUT"/>
+		<!-- activate to log in files -->
+		<!--<appender-ref ref="DAILY"/>-->
+		<!--<appender-ref ref="HTML"/>-->
+	</root>
+</log4j:configuration>

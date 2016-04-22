@@ -1,0 +1,57 @@
+<!--
+   - Resin 3.2 configuration file.
+  -->
+<resin xmlns="http://caucho.com/ns/resin"
+       xmlns:resin="http://caucho.com/ns/resin/core">
+       
+   <log-handler name="" level="all" path="stdout:"
+              timestamp="[%H:%M:%S.%s] {%{thread}} "/>     
+   <logger name="com.caucho" level="info"/>
+   
+   <cluster id="app-tier">
+     <server-default>
+        <http address="*" port="10090"/>
+	      <http address="*" port="9099"/>        
+	      <jvm-arg>-Xmx1024m</jvm-arg>
+	      <jvm-arg>-Xms1024m</jvm-arg>
+		  <jvm-arg>-Xmn100m</jvm-arg>
+	      <jvm-arg>-Xss1m</jvm-arg>
+	      <thread-max>100</thread-max>
+	      <socket-timeout>15s</socket-timeout>
+	      <keepalive-max>256</keepalive-max>
+	      <keepalive-timeout>5s</keepalive-timeout>
+     </server-default>
+
+     <server id="" address="127.0.0.1" port="9091">
+          <http host="127.0.0.1" port="9098" connection-max="128" />
+     </server>    
+    
+     <web-app-default>
+     </web-app-default>
+     
+     <resin:import path="C:/resin-4.0/conf/app-default.xml"/>
+
+<!-- presssolrservice.xml 文件中的内容   start  -->     
+    <database>
+        <jndi-name>jdbc/presssolrservice</jndi-name>
+        <driver type="com.mysql.jdbc.Driver">
+         <url>jdbc:mysql://10.130.18.29:3306/xhyb?useUnicode=true&amp;characterEncoding=utf-8</url>
+         <user>mysql</user>
+         <password>mysql</password>
+        </driver>
+        <prepared-statement-cache-size>8</prepared-statement-cache-size>
+        <max-connections>50</max-connections>
+        <max-idle-time>30s</max-idle-time>
+    </database>
+    
+    <host id="" root-directory=".">
+		<web-app id="/solrservice" document-directory="C:\\workhj\\workspace\\PressSolrService\\WebRoot">
+			<class-loader>
+			   <compiling-loader path="WEB-INF/classes"/>
+			   <library-loader path="WEB-INF/lib"/>
+			</class-loader>
+		</web-app>
+    </host>
+<!-- presssolrservice.xml 文件中的内容   start  -->
+    </cluster>
+</resin>

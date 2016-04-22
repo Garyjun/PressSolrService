@@ -1,0 +1,74 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<import resource="applicationContext.xml" />
+
+	<!-- 数据服务接口 -->
+	<bean id="solrQueueFacede" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solr.service.impl.SolrQueueFacedeImpl"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="createIndexService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solr.service.impl.CreateIndexFacedeImpl"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- solr客户端接口 -->
+	<bean id="solrClient" class="com.brainsoon.solr.util.SolrClient" />
+		
+	<!-- solr连接服务器端对象 -->
+	<bean id="solrServer" class="com.brainsoon.solr.util.SolrServerFactory"
+		factory-method="getBookSolrServer" />
+	
+	<!-- solr连接服务器端对象 -->
+	<bean id="solrServerSpecial" class="com.brainsoon.solr.util.SolrServerFactory"
+		factory-method="getSpecialSolrServer" />
+	
+	<!-- solr，创建，删除索引等接口 -->
+    <bean id="searchFacede" class="com.brainsoon.solr.service.impl.SearchFacedeImpl">
+		<property name="solrClient" ref="solrClient"/>
+		<property name="solrServer" ref="solrServer"/>
+		<property name="solrServerSpecial" ref="solrServerSpecial"/>
+	</bean>
+	
+	<bean id="searchSpecialFacede" class="com.brainsoon.solr.service.impl.SearchSpecialFacedeImpl">
+		<property name="solrClient" ref="solrClient"/>		
+		<property name="solrServerSpecial" ref="solrServerSpecial"/>
+	</bean>
+<!-- 	
+	solr，定时任务周期设置
+	<bean id="cronTriggerForIndexSolr" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailForIndexSolr" />
+		两分钟加载一次，用于测试
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+		<property name="cronExpression" value="0/30 * * * * ?" />
+		<property name="cronExpression" value="0 31 18 * * ?" />
+	</bean>
+	
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerForIndexSolr" />
+			</list>
+		</property>
+	</bean>
+
+	 定时任务接口
+	<bean id="doSolrIndexJobSolr" class="com.brainsoon.solr.job.doSolrIndexJob"/>
+	
+	<bean id="jobDetailForIndexSolr" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="doSolrIndexJobSolr"/>
+		<property name="targetMethod" value="doIndexJob"/>
+		<property name="concurrent" value="false"/>
+	</bean> -->
+</beans>

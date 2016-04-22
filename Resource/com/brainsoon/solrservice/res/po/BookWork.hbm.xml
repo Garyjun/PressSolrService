@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.brainsoon.solrservice.res.po.BookWork" table="xhyb_book_work">
+        <id name="bookid" type="java.lang.Long">
+            <column name="bookid" />
+            <generator class="native" />
+        </id>
+        <property name="ispdf" type="java.lang.Integer">
+            <column name="ispdf" length="1"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="buildwar" name="PressSolrService_build-deploy">
+	<property name="build.number" value="1.4" />
+
+	<!-- ========================================================================================== -->
+	<!-- 下面一项配置发布人员需要视情况修改value的值，其他参数每个项目修改一次                                       -->
+	<!-- ========================================================================================== -->
+	<!-- 门户名称，如npportal,spportal,entportal,perportal,cncvs -->
+	<property name="base.portal.java" value="npportal" />
+	<!-- ==========================================================================================  -->
+
+	<!-- 应用名称，如helpdesk,zj114,cncvsboss -->
+	<property name="appname" value="presssolrservice" />
+	<!-- 门户名称web.xml路径 -->
+	<property name="webxmlfile.dir" value="webxmlfile" />
+
+	<!--lib classpath-->
+	<property name="dir.lib" value="lib" />
+	<!--xdoclet lib classpath-->
+	<property name="xdoclet.dir" value="lib/xdoclet" />
+	<property name="template.dir" value="metadata/xdt" />
+	<property name="deploy.dir" value="deploy" />
+
+
+	<!--portal web classpath-->
+	<property name="portal.dir" value="portal/npspPortal/docroot" />
+
+	<path id="xdoclet.classpath">
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+
+		<fileset dir="${xdoclet.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${dir.qframe}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="buildrelease" depends="buildwar, buildarchive" />
+
+	<!-- =============================================  -->
+	<!-- build a single archive files for the source codes, 
+    	 including a full-compilable Eclipse project -->
+	<!-- =============================================  -->
+	<target name="buildarchive" depends="" >
+		<zip destfile="${deploy.dir}/${appname}-${build.number}.zip" update="true" defaultexcludes="true">
+			<!-- classes, deployment descriptors etc -->
+			<fileset dir=".">
+				<exclude name="deploy/**"/>
+				<exclude name="document/**"/>
+				<exclude name="logs/**"/>
+				<exclude name="generated/**"/>
+				<exclude name="${portal.dir}/WEB-INF/classes/**"/>
+				<exclude name="${portal.dir}/WEB-INF/work/**"/>
+				<exclude name="${portal.dir}/WEB-INF/lib/**"/>
+				<exclude name="${portal.dir}/WEB-INF/tmp/**"/>
+				<exclude name="${portal.dir}/WEB-INF/attachments/**"/>
+			</fileset>
+		</zip>
+	</target>
+
+
+	<!-- =============================================  -->
+	<!-- build .war file                                -->
+	<!-- =============================================  -->
+	<target name="buildwar" depends="">
+		<war destfile="${deploy.dir}/${appname}_${build.number}.war" 
+			webxml="WebRoot/WEB-INF/web.xml" 
+			defaultexcludes="true">
+			<fileset dir="WebRoot">
+				<exclude name="**/*.log" />
+				<exclude name="**/work/**" />
+				<exclude name="**/tmp/**" />
+				<exclude name="**/presImage/**" />
+				<exclude name="**/tempImage/**" />
+				<!--<exclude name="**/swf/**" />-->
+				<exclude name="**/aresUpload/**" />
+				<exclude name="**/resTemp/**" />
+				<exclude name="**/css/**" />
+				<exclude name="**/images/**" />
+				<exclude name="**/js/**" />
+			</fileset>
+		</war>
+	</target>
+	
+	<target name="buildzip" depends="" description="Create zip deployment unit">
+			<copy todir="${deploy}/build" overwrite="true">
+				<fileset dir="WebRoot" >
+					<exclude name="**/lib/**" />
+					<exclude name="**/logs/**" />
+					<exclude name="**/work/**" />
+		   		    <exclude name="**/tmp/**" />
+				</fileset>
+				</copy>
+				    <zip zipfile="deploy/mscp.zip">
+						<zipfileset dir="${deploy}/build"/>
+					</zip>			
+				<delete dir="${deploy}/build" />
+
+	</target>
+
+	<!-- This target is used to build a single .jar for files under /component/classes -->
+	<target name="buildjar" depends="">
+		<delete file="${component.classes.dir}/${appname}-${build.number}.jar" />
+		<javac classpathref="xdoclet.classpath" destdir="${component.classes.dir}" srcdir="${dao.src.dir}" debug="${debug}">
+			<include name="**"/>
+		</javac>
+		<javac  classpathref="xdoclet.classpath"   
+           		destdir="${component.classes.dir}" 
+           		srcdir="${service.src.dir}" debug="${debug}">
+			<include name="**"/>
+		</javac>
+		<copy  todir="${component.classes.dir}">
+			<fileset dir="${dao.src.dir}">
+				<include name="**/*.hbm.xml"/>
+			</fileset>
+		</copy>
+		<!-- Building EJB JAR -->
+		<jar destfile="${component.classes.dir}/ecbm.jar" >
+			<!-- classes, deployment descriptors etc -->
+			<fileset dir="${component.classes.dir}"/>
+		</jar>
+		<!-- End of building JAR -->
+
+		<delete includeemptydirs="true" >
+			<fileset dir="${component.classes.dir}" includes="**/*" excludes="ecbm.jar"/>
+		</delete>
+
+	</target>
+
+</project>

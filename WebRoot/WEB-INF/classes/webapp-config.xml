@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webapp-configs>
+	<!-- 产品目录 -->
+	<!-- <param name="prodDir" value="/home/shuke/appserver/peopledailypress.com/data/book/" /> -->
+	<param name="prodDir" value="C:/temp/book/" />
+	<!-- 搜索服务器地址 -->
+	
+	<param name="solrUrl" value="http://10.130.18.29:8983/solr" />
+</webapp-configs> 

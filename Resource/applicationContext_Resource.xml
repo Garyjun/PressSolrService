@@ -1,0 +1,106 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	
+	<import resource="applicationContext.xml" />
+	<bean id="bookService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.BookService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="bookArticleService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.BookArticleService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 文章 -->
+	<bean id="articleService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.ArticleService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 资讯 -->
+	<bean id="newsService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.NewsService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 期刊-->
+	<bean id="journalService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.JournalService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 大事记 -->
+	<bean id="eventService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.EventService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="specialService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.solrservice.res.service.impl.SpecialService"
+				parent="abstractBaseService">
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- generate servcie start -->
+	<!-- 
+	<bean id="presService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.bsrcm.pres.service.impl.PresService"
+				parent="abstractBaseService">
+				<property name="operHistoryService" ref="operHistoryService"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="directoryService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.bsrcm.pres.service.impl.DirectoryService"
+				parent="abstractBaseService">
+				<property name="operHistoryService" ref="operHistoryService"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="presNavigationService" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="com.brainsoon.bsrcm.pres.service.impl.PresNavigationService"
+				parent="abstractBaseService">
+				<property name="presService" ref="presService"></property>
+			</bean>
+		</property>
+	</bean>
+	 -->
+	<!-- generate servcie end -->
+	
+</beans>

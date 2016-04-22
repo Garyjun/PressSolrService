@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.brainsoon.solrservice.res.po.Author" table="xhyb_author">
+        <id name="authorid" type="java.lang.Long">
+            <column name="authorid" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="120"/>
+        </property>
+    </class>
+</hibernate-mapping>

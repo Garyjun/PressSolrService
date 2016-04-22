@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="com.brainsoon.solr.po.SolrQueue" table="solr_queue" lazy="false">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="resType" type="java.lang.Long" column="restype" length="11" />
+		<property name="prodId" type="java.lang.Long" column="prodid" length="11" />
+		<property name="orgId" type="java.lang.Long" column="orgid" length="11" />
+		<property name="orgAction" type="java.lang.String" column="orgaction" length="2" />
+		<property name="speId" type="java.lang.Long" column="speid" length="11" />
+		<property name="speAction" type="java.lang.String" column="speaction" length="2" />
+		<property name="onlinetime" type="java.lang.String" column="onlinetime" length="20" />
+		<property name="price" type="java.lang.String" column="price" length="20" />
+		<property name="salesnum" type="java.lang.String" column="salesnum" length="20" />
+		<property name="stsalesnum" type="java.lang.String" column="stsalesnum" length="20" />
+		<property name="actions" type="java.lang.String" column="actions" length="2" />
+		<property name="status" type="java.lang.String" column="status" length="2" />
+		<property name="createTime" type="java.util.Date" column="create_Time" />
+		<property name="selectType" type="java.lang.Long" column="selectType" length="11" />
+		<property name="bookStatus" type="java.lang.String" column="bookStatus" length="2" />
+		<property name="bookStStatus" type="java.lang.String" column="bookStStatus" length="2" />
+		<set name="solrFiles" table="solr_file" inverse="true" cascade="delete-orphan" lazy="false">
+			<key column="queue_id" not-null="true" />
+			<one-to-many class="com.brainsoon.solr.po.SolrFile" />
+		</set>
+	</class>
+</hibernate-mapping>
